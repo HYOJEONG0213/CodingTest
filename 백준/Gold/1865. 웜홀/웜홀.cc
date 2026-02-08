@@ -26,31 +26,29 @@ int main(){
 		
 		bool flag = false;
 		
-		fill(dist, dist+504, INF);
-		for(int cnt = 1; cnt <= N; cnt++){
-			if(dist[cnt] != INF) continue;
-			dist[cnt] = 0;
-			for(int i = 0; i < N; i++){
-				for(int here = 1; here <= N; here++){
-					if(dist[here]==INF) continue;
-					
-					for(auto j : adj[here]){
-						int v = j.first, cost = j.second;
-						int next = cost + dist[here];
-						if(dist[v] > next){
-							if(i == N-1){
-								flag = true;
-								break;
-							}
-							else{
-								dist[v] = next;
-							}
+		fill(dist, dist+504, 0);
+		dist[1] = 0;
+		
+		for(int i = 0; i < N; i++){
+			for(int here = 1; here <= N; here++){
+				if(dist[here]==INF) continue;
+				
+				for(auto j : adj[here]){
+					int v = j.first, cost = j.second;
+					int next = cost + dist[here];
+					if(dist[v] > next){
+						if(i == N-1){
+							flag = true;
+							break;
+						}
+						else{
+							dist[v] = next;
 						}
 					}
-					if(flag == true) break;
-				}	
+				}
 				if(flag == true) break;
-			}
+			}	
+			if(flag == true) break;
 		}
 		
 		if(flag == true){
