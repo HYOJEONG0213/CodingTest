@@ -3,31 +3,24 @@ using namespace std;
 
 string s;
 int N;
-map <string, int> mp;
 
 struct Trie{
-	map <char, Trie *> next;
+	int cnt = 0; 	// 끝나는 문자열의 수  
+	Trie *next[26]{};
 	
-	void Insert(string s, int index, vector <char> &v, bool flag){
-		if(s.size() <= index) 
-		{
-			if(flag == false) return;
-			for(auto i: v) cout << i;
-			cout << "\n";
-			return;
+	string Insert(string s, int index){
+		if(s.size() <= index) {
+			// 문자열이 이미 있는곳까지 왔다면..... 
+			return (++cnt == 1 ? s : s+to_string(cnt));
 		}
 		
-		char current = s[index];
-		v.push_back(s[index]);
+		char current = s[index] - 'a';
 		if(next[current] == 0){
-			if(flag == true){
-				for(auto i : v) cout << i;
-				cout << "\n";
-				flag = false;
-			}
 			next[current] = new Trie();
+			next[current] -> Insert(s, index+1);
+			return s.substr(0, index+1);
 		}
-		next[current]->Insert(s, index+1, v, flag);
+		return next[current]->Insert(s, index+1);
 	} 
 };
 
@@ -39,13 +32,6 @@ int main(){
 	Trie trie;
 	for(int i = 0; i < N; i++){
 		cin >> s;
-		mp[s]++;
-		if(mp[s] >= 2){
-			cout << s << mp[s] << "\n";
-		}
-		else{
-			vector <char> v;
-			trie.Insert(s, 0, v, true);
-		}
+		cout << trie.Insert(s, 0) << "\n";
 	}
 }
