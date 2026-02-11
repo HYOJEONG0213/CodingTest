@@ -3,21 +3,20 @@ using namespace std;
 
 int N, M;
 string s;
-map <string, int> mp;
+set <string> st;
 vector <string> ret;
 
 int main(){
 	cin >> N >> M;
 	for(int i = 0; i < N; i++){
 		cin >> s;
-		mp[s]++;
+		st.insert(s);
 	}
 	for(int i = 0; i < M; i++){
 		cin >> s;
-		if(mp[s]==1) {
+		if(st.find(s) != st.end()) {
 			ret.push_back(s);
 		}
-		mp[s]++;
 	}
 	
 	sort(ret.begin(), ret.end());
