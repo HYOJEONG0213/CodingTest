@@ -4,12 +4,18 @@ using namespace std;
 int N, ret;
 
 struct Trie{
-	map <int, Trie *> next;
-	bool isEnd = false;
+	Trie * next[30];
+	bool isEnd;
+	int cnt;
+	
+	Trie(){
+		fill(next, next+30, nullptr);
+		isEnd = false;
+		cnt = 0;
+	}
 	
 	~Trie(){
-		for(auto i : next) delete i.second;
-		next.clear();
+		for(auto i : next) delete i;
 	}
 	
 	void insert(const string &s, int index){
@@ -19,7 +25,10 @@ struct Trie{
 		}
 		
 		int current = s[index] - 'a';
-		if(!next[current]) next[current] = new Trie();
+		if(!next[current]) {
+			next[current] = new Trie();
+			cnt++;
+		}
 		next[current] -> insert(s, index+1);
 	}
 	
@@ -27,7 +36,7 @@ struct Trie{
 		if(s.size() <= index) return;
 		
 		int current = s[index] - 'a';
-		if(index == 0 || isEnd == true || next.size() >= 2){
+		if(index == 0 || isEnd == true || cnt >= 2){
 			//cout << s << " " << index << "\n";
 			ret++;
 		}
