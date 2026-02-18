@@ -3,47 +3,52 @@ using namespace std;
 
 int N, ret;
 
+struct Trie;
+vector <Trie> nodes;
+
+
 struct Trie{
-	Trie * next[30];
+	int next[30];
 	bool isEnd;
 	int cnt;
 	
 	Trie(){
-		fill(next, next+30, nullptr);
+		memset(next, -1, sizeof(next));
 		isEnd = false;
 		cnt = 0;
 	}
 	
-	~Trie(){
-		for(auto i : next) delete i;
-	}
 	
-	void insert(const string &s, int index){
+	static void insert(int node_idx, const string &s, int index){
 		if(s.size() <= index) {
-			isEnd = true;
+			nodes[node_idx].isEnd = true;
 			return;
 		}
 		
 		int current = s[index] - 'a';
-		if(!next[current]) {
-			next[current] = new Trie();
-			cnt++;
+		if(nodes[node_idx].next[current]==-1) {
+			//벡터 마지막 인덱스에 할당  
+			nodes[node_idx].next[current] = nodes.size();
+			nodes.push_back(Trie());
+			nodes[node_idx].cnt++;
 		}
-		next[current] -> insert(s, index+1);
+		insert(nodes[node_idx].next[current], s, index+1);
 	}
 	
-	void find(const string &s, int index){
+	static void find(int node_idx, const string &s, int index){
 		if(s.size() <= index) return;
 		
 		int current = s[index] - 'a';
-		if(index == 0 || isEnd == true || cnt >= 2){
+		if(index == 0 || nodes[node_idx].isEnd == true || nodes[node_idx].cnt >= 2){
 			//cout << s << " " << index << "\n";
 			ret++;
 		}
 		
-		next[current] -> find(s, index+1);
+		find(nodes[node_idx].next[current], s, index+1);
 	}
 };
+
+
 
 int main(){
 	ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
@@ -52,6 +57,8 @@ int main(){
 		//초기화
 		string a;
 		vector <string> s;
+		nodes.clear();
+		nodes.push_back(Trie());
 		
 		Trie trie;
 		ret = 0;
@@ -59,10 +66,10 @@ int main(){
 		for(int i = 0; i < N; i++){
 			cin >> a;
 			s.push_back(a);
-			trie.insert(s[i], 0);
+			Trie::insert(0, s[i], 0);
 		}  
 		for(int i = 0; i < N; i++){
-			trie.find(s[i], 0);
+			Trie::find(0, s[i], 0);
 		}  
 		//cout << ret << " ";
 		cout << fixed << setprecision(2) << (double)ret/N << "\n";
