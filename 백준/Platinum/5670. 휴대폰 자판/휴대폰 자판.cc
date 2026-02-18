@@ -5,10 +5,16 @@ int N, ret;
 
 struct Trie{
 	map <int, Trie *> next;
+	bool isEnd = false;
 	
-	void insert(string s, int index){
+	~Trie(){
+		for(auto i : next) delete i.second;
+		next.clear();
+	}
+	
+	void insert(const string &s, int index){
 		if(s.size() <= index) {
-			next[100] = new Trie();
+			isEnd = true;
 			return;
 		}
 		
@@ -17,11 +23,11 @@ struct Trie{
 		next[current] -> insert(s, index+1);
 	}
 	
-	void find(string s, int index){
+	void find(const string &s, int index){
 		if(s.size() <= index) return;
 		
 		int current = s[index] - 'a';
-		if(index == 0 || next.size() >= 2){
+		if(index == 0 || isEnd == true || next.size() >= 2){
 			//cout << s << " " << index << "\n";
 			ret++;
 		}
