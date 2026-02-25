@@ -3,49 +3,59 @@ using namespace std;
 
 typedef long long ll;
 typedef pair<int,int> pp;
-int N, a, tree[500004];
-vector <int> A, sortA;
+int N;
+vector <int> A, temp;
 ll ret;
 
-void update(int index, int value){
-	while(index <= N){
-		tree[index] += value;
-		index += index&-index;
+void merge(int s, int mid, int e){
+	int i = s;	// 왼쪽 그룹 
+	int j = mid + 1;	//오른쪽 그룹
+	int k = s;
+	
+	while(i <= mid && j <= e){
+		if(A[i] <= A[j]){
+			temp[k] = A[i];
+			k++; i++;
+		}
+		else{
+			ret += mid - i + 1;
+			temp[k] = A[j];
+			k++; j++;
+		}
+	} 
+	
+	while(i <= mid) {
+		temp[k] = A[i];
+		k++; i++;
+	}
+	while(j <= e){
+		temp[k] = A[j];
+		k++; j++;
+	}
+	
+	for(int i = s; i <= e; i++)
+		A[i] = temp[i];
+}
+
+void mergeSort(int s, int e){
+	if(s < e){
+		int mid = (s+e)/2;
+		mergeSort(s, mid);
+		mergeSort(mid+1, e);
+		merge(s, mid, e);
 	}
 }
 
-ll sum(int index){
-	ll ret = 0;
-	while(index > 0){
-		ret += tree[index];
-		index -= index&-index;
-	}
-	return ret;
-}
-
-int getRank(int value){
-	int index = lower_bound(sortA.begin(), sortA.end(), value) - sortA.begin();
-	// tree[0] 은 비워줘야하므로  
-	return index + 1;
-}
 
 int main(){
 	ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 	cin >> N;
+	A.resize(500004);
+	temp.resize(500004);
 	for(int i = 0; i < N; i++){
-		cin >> a;
-		A.push_back(a);
-		sortA.push_back(a);
+		cin >> A[i];
 	}
-	sort(sortA.begin(), sortA.end());
-	
-	for(int i = 0; i < N; i++){
-		// 좌표 압축  
-		int index = getRank(A[i]);
-		// 내 인덱스번호 - 내앞에 나보다 작거나 같은수 
-		ret += i - sum(index);
-		update(index, 1);	//나를 트리에 등록  
-	}
+	mergeSort(0, N-1);
 	
 	cout << ret;
 }
