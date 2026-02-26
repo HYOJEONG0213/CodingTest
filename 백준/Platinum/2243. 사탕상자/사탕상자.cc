@@ -2,42 +2,41 @@
 using namespace std;
 
 typedef long long ll;
-typedef pair<int,int> pp;
-const int MAXNUM = 1000000;
+const int MAXNUM = 1000004;
 const int INF = 987654321;
-int N, A, B, C;
-pp tree[4000004];
+int N, A, B, C, tree[4000004];
 
-pp sum(int s, int e, int value, int node){
-	if(s==e) return tree[node];
-	
-	int mid = (s+e)/2;
-	
-	if(tree[node*2].first >= value){
-		return sum(s, mid, value, node*2);
-	}
-	else{
-		return sum(mid+1, e, value - tree[node*2].first, node*2+1);
+void update(int index, int value){
+	while(index < MAXNUM){
+		tree[index] += value;
+		index += index & -index;
 	}
 }
 
-pp update(int s, int e, int target, int value, int node){
-	if(s > target || e < target) return tree[node];
-	if(s==e) {
-		tree[node].first += value;
-		if(tree[node].first > 0)
-			tree[node].second = target;
-		else
-			tree[node].second = 0;
-		return tree[node];
+int sum(int index){
+	int ret = 0;
+	while(index > 0){
+		ret += tree[index];
+		index -= index&-index;
 	}
+	return ret;
+}
+
+int getIndex(int value){
+	int s = 1, e = MAXNUM;
+	int ret = 0;
 	
-	int mid = (s+e)/2;
-	pp l = update(s, mid, target, value, node*2);
-	pp r = update(mid+1, e, target, value, node*2+1);
-	tree[node].first = l.first+r.first;
-	tree[node].second = max(l.second, r.second);
-	return tree[node];
+	while(s <= e){
+		int mid = (s+e)/2;
+		if(sum(mid) >= value){
+			ret = mid;
+			e = mid-1;
+		}
+		else{
+			s = mid+1;
+		}
+	}
+	return ret;
 }
 
 int main(){
@@ -47,13 +46,13 @@ int main(){
 		cin >> A;
 		if(A == 1){
 			cin >> B;
-			int index = sum(1, MAXNUM, B, 1).second;
+			int index = getIndex(B);
 			cout << index << "\n"; 
-			update(1, MAXNUM, index, -1, 1);
+			update(index, -1);
 		}
 		else{
 			cin >> B >> C;
-			update(1, MAXNUM, B, C, 1);
+			update(B, C);
 		}
 	}
 }
