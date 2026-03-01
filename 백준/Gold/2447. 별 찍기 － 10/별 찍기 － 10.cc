@@ -2,7 +2,7 @@
 using namespace std;
 
 int N;
-char board[10000][10000];
+char board[7000][7000];
 
 void merge(int y, int x, int size){
 	if(size==1){
@@ -23,7 +23,7 @@ void merge(int y, int x, int size){
 
 int main(){
 	ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
-	fill(&board[0][0], &board[0][0]+10000*10000, ' ');
+	fill(&board[0][0], &board[0][0]+7000*7000, ' ');
 	cin >> N;
 	
 	merge(0, 0, N);
