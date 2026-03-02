@@ -1,7 +1,21 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int N, board[4000][4000], ret[3];
+int N, board[2200][2200], ret[3];
+
+bool check(int y, int x, int _size){
+	int temp = board[y][x];
+	
+	for(int i = y; i < y+_size; i++){
+		for(int j = x; j < x+_size; j++){
+			if(board[i][j] != temp){
+				return false;
+			}
+		}
+	}
+	
+	return true;
+}
 
 void go(int y, int x, int _size){
 	if(_size==1){
@@ -9,33 +23,17 @@ void go(int y, int x, int _size){
 		return;
 	}
 	
-	int temp = board[y][x];
-	int inter = _size/3;
-	bool flag = false;
-	for(int i = 0; i < _size; i++){
-		for(int j = 0; j < _size; j++){
-			if(board[y+i][x+j] != temp){
-				flag = true;
-				break;
-			}
-		}
-		if(flag == true) break;
-	}
-	
-	if(flag == true){
-		go(y, x, inter);
-		go(y, x+inter, inter);
-		go(y, x+2*inter, inter);
-		go(y+inter, x, inter);
-		go(y+inter, x+inter, inter);
-		go(y+inter, x+2*inter, inter);
-		go(y+inter*2, x, inter);
-		go(y+inter*2, x+inter, inter);
-		go(y+inter*2, x+2*inter, inter);
+	if(check(y, x, _size)==true){
+		ret[board[y][x]+1]++;
 		return;
 	}
 	
-	ret[temp+1]++;
+	int inter = _size/3;	
+	for(int i = 0; i < 3; i++){
+		for(int j = 0; j < 3; j++){
+			go(y + i * inter, x + j * inter, inter);
+		}
+	}
 }
 
 int main(){
