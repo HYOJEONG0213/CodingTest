@@ -3,9 +3,8 @@ using namespace std;
 
 typedef long long ll;
 typedef pair<int,int> pp;
-int N, a, A[500004], tree[2000004];
+int N, a, A[500004], B[1000004], tree[2000004];
 vector <int> C;
-vector <pp> B;
 ll ret;
 
 int query(int s, int e, int node, int left, int right){
@@ -36,31 +35,13 @@ int main(){
 	}
 	for(int i = 0; i < N; i++){
 		cin >> a;
-		B.push_back({a, i});
-	}
-	sort(B.begin(), B.end());
-	
-	for(int i = 0; i < N; i++){
-		int l = 0, r = B.size()-1;
-		while(l <= r){
-			int mid = (l+r)/2;
-			if(B[mid].first == A[i]){
-				C.push_back(B[mid].second);
-				break;
-			}
-			else if(B[mid].first < A[i]){
-				l = mid + 1;
-			}
-			else{
-				r = mid - 1;
-			}
-		}
+		B[a] = i;
 	}
 
 	for(int i = 0; i < N; i++){
 		//1-based
-		ret += query(1, N, 1, C[i]+2, N);
-		update(1, N, 1, C[i]+1);
+		ret += query(0, N-1, 1, B[A[i]]+1, N);
+		update(0, N-1, 1, B[A[i]]);
 	}
 	
 	cout << ret;
