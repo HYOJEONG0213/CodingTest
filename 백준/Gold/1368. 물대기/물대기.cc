@@ -9,7 +9,7 @@ struct Edge{
 	}
 };
 
-int N, W[304], a, b, p[304], level[304], ret, visited[304];
+int N, W[304], a, b, p[304], level[304], ret;
 vector <Edge> v;
 
 int find(int x){
@@ -20,10 +20,13 @@ int find(int x){
 void merge(int x, int y){
 	x = find(x); y = find(y);
 	if(x==y) return;
-	if(W[x]<W[y]){
+	if(level[y] < level[x]){
 		p[y] = x;
 	}
 	else{
+		if(level[y]==level[x]){
+			level[y]++;
+		}
 		p[x] = y;
 	}
 }
@@ -33,7 +36,10 @@ int main(){
 	memset(p, -1, sizeof(p));
 	cin >> N;
 	for(int i = 0; i < N; i++){
-		cin >> W[i];
+		Edge edge;
+		edge.s = i, edge.e = N;
+		cin >> edge.dir;
+		v.push_back(edge);
 	}
 	for(int i = 0; i < N; i++){
 		for(int j = 0; j < N; j++){
@@ -50,21 +56,12 @@ int main(){
 		s = find(s);
 		e = find(e);
 		if(s==e) continue;
-		if(dir > max(W[s], W[e])) continue;
 		
 		//cout << dir << " ";
 		ret += dir;
 		merge(s, e);
 	}
-	
-	for(int i = 0; i < N; i++){
-		int num = i;
-		num = find(num);
-		if(visited[num]==1) continue;
-		//cout << "\n "<< W[i] << " ";
-		ret += W[num];
-		visited[num] = 1;
-	}
+
 	
 	cout << ret;
 }
