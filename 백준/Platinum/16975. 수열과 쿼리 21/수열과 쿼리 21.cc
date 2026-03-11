@@ -2,44 +2,76 @@
 using namespace std;
 
 typedef long long ll;
-ll N, M, a, b, c, d, A[100004], tree1[100004], tree2[100004];
+ll N, M, a, b, c, d, A[100004], tree[400004], lazy[400004];
 
-void update(ll *tree, ll index, ll value){
-	while(index <= N){
-		tree[index] += value;
-		index += index&-index;
+void init(ll s, ll e, ll node){
+	if(s==e){
+		tree[node] = A[s];
+		return;
 	}
+	int mid = (s+e)/2;
+	init(s, mid, node*2);
+	init(mid+1, e, node*2+1);
+	tree[node] = tree[node*2]+tree[node*2+1];
 }
 
-ll sum(ll *tree, ll index){
-	ll ret = 0;
-	while(index > 0){
-		ret += tree[index];
-		index -= index&-index;
+void update_lazy(ll s, ll e, ll node){
+	if(lazy[node]==0) return;
+	
+	tree[node] += (e-s+1) * lazy[node];
+	if(s != e){
+		lazy[node*2] += lazy[node];
+		lazy[node*2+1] += lazy[node];
 	}
-	return ret;
+	
+	lazy[node] = 0;
+}
+
+void update(ll s, ll e, ll node, ll left, ll right, ll value){
+	update_lazy(s, e, node);
+	if(e < left || s > right) return;
+	if(left <= s && e <= right) {
+		lazy[node] += value;
+		update_lazy(s, e, node);
+		return;
+	}
+	
+	ll mid = (s+e)/2;
+	update(s, mid, node*2, left, right, value);
+	update(mid+1, e, node*2+1, left, right, value);
+	tree[node] = tree[node*2]+tree[node*2+1];
+}
+
+ll sum(ll s, ll e, ll node, ll left, ll right){
+	update_lazy(s, e, node);
+	if(e < left || s > right) return 0;
+	if(left <= s && e <= right) return tree[node];
+	
+	ll mid = (s+e)/2;
+	ll l = sum(s, mid, node*2, left, right);
+	ll r = sum(mid+1, e, node*2+1, left, right);
+	return l+r;
 }
 
 int main(){
 	ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 	cin >> N;
-	for(ll i = 1; i <= N; i++){
+	for(ll i = 0; i < N; i++){
 		cin >> A[i];
-		update(tree1, i, A[i]);
 	}
+	init(0, N-1, 1);
 	cin >> M;
-	for(ll i = 1; i <= M; i++){
+	for(ll i = 0; i < M; i++){
 		cin >> a;
 		if(a==1){
 			cin >> b >> c >> d;
-			update(tree2, b, d);
-			update(tree2, c+1, -d);
+			b--; c--;
+			update(0, N-1, 1, b, c, d);
 		}
 		else{
 			cin >> b;
-			ll temp1 = A[b];
-			ll temp2 = sum(tree2, b);
-			cout << temp1+temp2 << "\n";
+			b--;
+			cout << sum(0, N-1, 1, b, b) << "\n";
 		}
 	}
 }
