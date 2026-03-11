@@ -37,7 +37,7 @@ int main(){
 		}
 		else{
 			cin >> b;
-			ll temp1 = sum(tree1, b) - sum(tree1, b-1);
+			ll temp1 = A[b];
 			ll temp2 = sum(tree2, b);
 			cout << temp1+temp2 << "\n";
 		}
