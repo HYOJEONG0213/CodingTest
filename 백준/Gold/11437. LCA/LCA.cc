@@ -1,18 +1,37 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int N, M, a, b, parent[50004], depth[50004], visited[50004];
+int N, M, a, b, parent[50004][20], depth[50004], visited[50004];
 vector <int> adj[50004];
+const int MAXNUM = 16;
+
+void setParent(){
+	for(int i = 1; i < MAXNUM; i++){
+		for(int j = 1; j <= N; j++){
+			parent[j][i] = parent[parent[j][i-1]][i-1];
+		}
+	}
+}
 
 int LCA(int x, int y){
 	if(depth[x] > depth[y]) swap(x, y);
-	while(depth[x] != depth[y]) y = parent[y];
-	while(x != y){
-		x = parent[x];
-		y = parent[y];
+	
+	for(int i = MAXNUM-1; i >= 0; i--){
+		if(depth[y] - depth[x] >= (1<<i)){
+			y = parent[y][i];
+		}
 	}
 	
-	return x;
+	if(x == y) return x;
+	
+	for(int i = MAXNUM-1; i >= 0; i--){
+		if(parent[x][i] != parent[y][i]){
+			x = parent[x][i];
+			y = parent[y][i];
+		}
+	}
+	
+	return parent[x][0];
 }
 
 int main(){
@@ -36,11 +55,12 @@ int main(){
 			if(visited[i]) continue;
 			visited[i] = 1;
 			depth[i] = depth[x]+1;
-			parent[i] = x;
+			parent[i][0] = x;
 			q.push(i);
 		}
 	} 
 	
+	setParent();
 	
 	cin >> M;
 	
