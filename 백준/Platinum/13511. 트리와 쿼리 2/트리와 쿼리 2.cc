@@ -5,7 +5,7 @@ typedef long long ll;
 typedef pair<int,int> pp;
 const int MAXNUM = 18;
 int N, M, u, v, w, k, a, idx, parent[100004][MAXNUM], visited[100004];
-ll psum[100004][MAXNUM];
+ll dist[100004];
 vector <pp> adj[100004];
 
 void bfs(){
@@ -20,7 +20,7 @@ void bfs(){
 			if(visited[v]) continue;
 			visited[v] = visited[here]+1;
 			parent[v][0] = here;
-			psum[v][0] = w;
+			dist[v] = dist[here] + w; 
 			q.push(v);
 		}
 	}
@@ -30,36 +30,8 @@ void setParent(){
 	for(int j = 1; j < MAXNUM; j++){
 		for(int i = 1; i<=N; i++){
 			parent[i][j] = parent[parent[i][j-1]][j-1];
-			psum[i][j] = psum[i][j-1] + psum[parent[i][j-1]][j-1];
 		}
 	}
-}
-
-ll getDist(int u, int v){
-	ll ret = 0;
-	if(visited[u] < visited[v]) swap(u, v);
-	for(int i = MAXNUM-1; i >= 0; i--){
-		if(visited[u]-visited[v] >= (1<<i)){
-			ret += psum[u][i];
-			u = parent[u][i];
-		}
-	}
-	
-	if(u==v) return ret;
-	
-	for(int i = MAXNUM-1; i >= 0; i--){
-		if(parent[u][i]!=parent[v][i]){
-			ret += psum[u][i];
-			ret += psum[v][i];
-			u = parent[u][i];
-			v = parent[v][i];
-		}
-	}
-	
-	ret += psum[u][0];
-	ret += psum[v][0];
-	
-	return ret;
 }
 
 int getLCA(int u, int v){
@@ -82,6 +54,11 @@ int getLCA(int u, int v){
 	return parent[u][0];
 }
 
+ll getDist(int u, int v){
+	int LCA = getLCA(u, v);
+	return dist[u] + dist[v] - dist[LCA]*2;
+}
+
 int getKNum(int u, int k){
 	for(int i = MAXNUM-1; i >= 0; i--){
 		if(k >= (1 << i)) {
@@ -94,7 +71,6 @@ int getKNum(int u, int k){
 }
 
 int getNum(int u, int v, int k){
-	int originV = v;
 	int num = 1;
 	int ret = u;
 	
