@@ -12,12 +12,7 @@ int main(){
 	cin >> x2 >> y2 ;
 	cin >> x3 >> y3 ;
 	
-	int vx = x2-x1;
-	int vy = y2-y1;
-	int ux = x3-x2;
-	int uy = y3-y2;
-	
-	int temp = vx*uy - vy*ux;
+	int temp = x1*y2 + x2*y3 + x3*y1 -(x1*y3+x3*y2 + x2*y1);
 	if(temp > 0){
 		cout << 1;
 	}
