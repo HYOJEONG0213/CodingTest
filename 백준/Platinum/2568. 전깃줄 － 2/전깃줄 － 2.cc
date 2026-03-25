@@ -9,6 +9,7 @@ vector <int> ret;
 
 int main(){
 	ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+	fill(B, B+100004, INF);
 	
 	cin >> N;
 	for(int i = 0; i < N; i++){
@@ -21,11 +22,11 @@ int main(){
  	for(int i = 0; i < N; i++){
 		int value = A[i].second;
 		auto *iter = lower_bound(B, B+n, value);
-		if(*iter == 0){
+		if(*iter == INF){
 			n++;
 		}
 		*iter = value;
-		p[value] = (iter - B) + 1;
+		p[value] = (iter-B)+1;
 	}
 	
 	cout << N-n << "\n";
