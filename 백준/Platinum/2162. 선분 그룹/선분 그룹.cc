@@ -3,15 +3,15 @@ using namespace std;
 #define y1 yyyyy 
 
 typedef long long ll;
-typedef pair<ll, ll> pp;
+typedef pair<int, int> pp;
 struct Line{
 	pp p1, p2;
 };
-ll N, mx, ret, p[3004], level[3004];
+int N, mx, ret, p[3004], level[3004];
 Line lines[3004];
-map <ll, ll> mp;
+map <int, int> mp;
 
-ll outer(pp a, pp b, pp c) {
+int outer(pp a, pp b, pp c) {
     ll res = (a.first * b.second + b.first * c.second + c.first * a.second) 
 	- (a.second * b.first + b.second * c.first + c.second * a.first);
 
@@ -20,7 +20,7 @@ ll outer(pp a, pp b, pp c) {
 	return 0;
 }
 
-ll find(ll x){
+int find(ll x){
 	if(p[x]==-1){
 		return x;
 	}
