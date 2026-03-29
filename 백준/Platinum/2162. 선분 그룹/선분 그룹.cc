@@ -3,11 +3,21 @@ using namespace std;
 #define y1 yyyyy 
 
 typedef long long ll;
-ll N, mx, x1[3004], x2[3004], y1[3004], y2[3004], ret, p[3004], level[3004];
+typedef pair<ll, ll> pp;
+struct Line{
+	pp p1, p2;
+};
+ll N, mx, ret, p[3004], level[3004];
+Line lines[3004];
 map <ll, ll> mp;
 
-ll outer(ll a1, ll b1, ll a2, ll b2, ll a3, ll b3){
-	return a1*b2+a2*b3+a3*b1 - (a1*b3 + a3*b2 + a2*b1);
+ll outer(pp a, pp b, pp c) {
+    ll res = (a.first * b.second + b.first * c.second + c.first * a.second) 
+	- (a.second * b.first + b.second * c.first + c.second * a.first);
+
+	if(res > 0) return 1;
+	if(res < 0) return -1;
+	return 0;
 }
 
 ll find(ll x){
@@ -37,24 +47,21 @@ int main(){
 	
 	cin >> N;
 	for(int i = 0; i < N; i++){
-		cin >> x1[i] >> y1[i] >> x2[i] >> y2[i];
-		if(make_pair(x1[i], y1[i]) > make_pair(x2[i], y2[i])){
-			swap(x1[i], x2[i]);
-			swap(y1[i], y2[i]);
-		}
+		cin >> lines[i].p1.first >> lines[i].p1.second >> lines[i].p2.first >> lines[i].p2.second;
 	}
 	for(int i = 0; i < N; i++){
 		for(int j = i+1; j < N; j++){
-			ll a = outer(x1[i], y1[i], x2[i], y2[i], x1[j], y1[j]);
-			ll b = outer(x1[i], y1[i], x2[i], y2[i], x2[j], y2[j]);
-			ll c = outer(x1[i], y1[i], x1[j], y1[j], x2[j], y2[j]);
-			ll d = outer(x2[i], y2[i], x1[j], y1[j], x2[j], y2[j]);
+			ll a = outer(lines[i].p1, lines[i].p2, lines[j].p1);
+			ll b = outer(lines[i].p1, lines[i].p2, lines[j].p2);
+			ll c = outer(lines[i].p1, lines[j].p1, lines[j].p2);
+			ll d = outer(lines[i].p2, lines[j].p1, lines[j].p2);
 			if(a*b > 0 || c*d > 0) continue;
 			if(a*b == 0 && c*d == 0){
 				// 대소 비교 
-				if(x2[i] >= x1[j] && x1[i] <= x2[j] 
-				&& min(y1[i], y2[i]) <= max(y1[j], y2[j]) 
-				&& max(y1[i], y2[i]) >= min(y1[j], y2[j])){
+				if(lines[i].p1 > lines[i].p2) swap(lines[i].p1, lines[i].p2);
+				if(lines[j].p1 > lines[j].p2) swap(lines[j].p1, lines[j].p2);
+				
+				if(lines[i].p1 <= lines[j].p2 && lines[i].p2 >= lines[j].p1){
 					merge(i, j);
 				}
 			}
