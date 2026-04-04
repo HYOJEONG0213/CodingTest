@@ -5,7 +5,7 @@ typedef long long ll;
 
 int T, n, m, A[1004], B[1004], psumA[1004], psumB[1004];
 ll ret;
-map <int,int> mpA, mpB;
+unordered_map <int,int> mpA, mpB;
 
 int main(){
 	ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
@@ -34,7 +34,10 @@ int main(){
 	}
 	
 	for(auto iter = mpA.begin(); iter != mpA.end(); iter++){
-		ret += (ll)iter->second * mpB[T-iter->first];
+		int target = T - iter->first;
+		if(mpB.count(target)){
+			ret += (ll)iter->second * mpB[target];
+		}
 	}
 	
 	cout << ret;
