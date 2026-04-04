@@ -5,7 +5,7 @@ typedef long long ll;
 
 int T, n, m, A[1004], B[1004], psumA[1004], psumB[1004];
 ll ret;
-unordered_map <int,int> mpA, mpB;
+vector <int> vA, vB;
 
 int main(){
 	ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
@@ -23,21 +23,23 @@ int main(){
 	for(int i = 1; i <= n; i++){
 		for(int j = i; j <= n; j++){
 			int num = psumA[j] - psumA[i-1];
-			mpA[num]++;
+			vA.push_back(num);
 		}
 	}
 	for(int i = 1; i <= m; i++){
 		for(int j = i; j <= m; j++){
 			int num = psumB[j] - psumB[i-1];
-			mpB[num]++;
+			vB.push_back(num);
 		}
 	}
+	sort(vA.begin(), vA.end());
+	sort(vB.begin(), vB.end());
 	
-	for(auto iter = mpA.begin(); iter != mpA.end(); iter++){
-		int target = T - iter->first;
-		if(mpB.count(target)){
-			ret += (ll)iter->second * mpB[target];
-		}
+	
+	for(auto i : vA){
+		int target = T - i;
+		ll cnt = upper_bound(vB.begin(), vB.end(), target) - lower_bound(vB.begin(), vB.end(), target);
+		ret += cnt;
 	}
 	
 	cout << ret;
