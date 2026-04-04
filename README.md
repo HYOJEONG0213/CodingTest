@@ -4,7 +4,11 @@
 
 <img src="https://img.shields.io/badge/C++-00599C?style=flat-square&logo=c%2B%2B&logoColor=white"/>
 <img src="https://img.shields.io/badge/Baekjoon-Solved.ac-00C73C?style=flat-square&logo=Baekjoon&logoColor=white"/>
-
+<div align="center">
+    <a href="https://solved.ac/profile/jeong0213">
+        <img src="http://mazassumnida.wtf/api/v2/generate_badge?boj=jeong0213" width=40% />
+    </a>
+</div>
 </div>
 
 ## 🗂️ 백준 풀이 모음 (C++)
