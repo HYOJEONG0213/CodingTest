@@ -3,7 +3,7 @@ using namespace std;
 
 typedef long long ll;
 
-int T, n, m, A[1004], B[1004], psumA[1004], psumB[1004];
+int T, n, m, a, psumA[1004], psumB[1004];
 ll ret;
 vector <int> vA, vB;
 
@@ -12,13 +12,13 @@ int main(){
 	cin >> T;
 	cin >> n;
 	for(int i = 1; i <= n; i++){
-		cin >> A[i];
-		psumA[i] = psumA[i-1]+A[i];
+		cin >> a;
+		psumA[i] = psumA[i-1]+a;
 	}
 	cin >> m;
 	for(int i = 1; i <= m; i++){
-		cin >> B[i];
-		psumB[i] = psumB[i-1]+B[i];
+		cin >> a;
+		psumB[i] = psumB[i-1]+a;
 	}
 	for(int i = 1; i <= n; i++){
 		for(int j = i; j <= n; j++){
