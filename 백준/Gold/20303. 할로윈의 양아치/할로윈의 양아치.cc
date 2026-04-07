@@ -3,12 +3,11 @@ using namespace std;
 
 typedef pair<int,int> pp;
 int N, M, K, c[30004], visited[30004], p[30004], level[30004], a, b;
-int dp[30004];
-pp psum[30004];
+int dp[3004], psum[30004];
 vector <pp> v;
 
 int find(int x){
-	if(p[x]==-1) return x;
+	if(p[x] < 0) return x;
 	return p[x] = find(p[x]);
 }
 
@@ -16,14 +15,16 @@ void merge(int x, int y){
 	x = find(x), y = find(y);
 	if(x==y) return;
 	
-	if(level[x] < level[y]){
-		p[x] = y;
+	// p[x] : 카운트 개수  
+	if(p[x] < p[y]){
+		p[x] += p[y];
+		p[y] = x;
+		psum[x] += psum[y];
 	}
 	else{
-		if(level[x]==level[y]){
-			level[y]++;
-		}
-		p[y] = x;
+		p[y] += p[x];
+		p[x] = y;
+		psum[y] += psum[x];
 	}
 }
 
@@ -44,22 +45,17 @@ int main(){
 	cin >> N >> M >> K;
 	for(int i = 1; i <= N; i++){
 		cin >> c[i];
+		psum[i] = c[i];
 	}
 	for(int i = 0; i < M; i++){
 		cin >> a >> b;
 		merge(a, b);
 	}
 	for(int i = 1; i <= N; i++){
-		int idx = find(i);
-		psum[idx].first++;
-		psum[idx].second += c[i];
+		if(p[i] < 0)
+			v.push_back({-p[i], psum[i]});
 	}
-	for(int i = 1; i <= N; i++){
-		int idx = find(i);
-		if(visited[idx]==1) continue;
-		visited[idx] = 1;
-		v.push_back(psum[idx]);
-	}
+	sort(v.begin(), v.end());
 	
 	f();
 	cout << dp[K-1];
