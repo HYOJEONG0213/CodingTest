@@ -2,9 +2,9 @@
 using namespace std;
 
 typedef pair<int,int> pp;
-int N, M, board[1004][1004], ret[1004][1004], visited[1004][1004];
+int N, M, board[1004][1004], visited[1004][1004];
 int dy[4] = {-1, 0, 1, 0}, dx[4] = {0, 1, 0, -1};
-vector <int> _size(1004*1004, 0);
+int _size[1004*1004];
 string s;
 
 void dfs(int y, int x, int idx){
@@ -50,6 +50,7 @@ int main(){
 	}
 	for(int i = 0; i < N; i++){
 		for(int j = 0; j < M; j++){
+			int ret = 0;
 			if(board[i][j]==1){
 				set <int> adj;
 				
@@ -60,18 +61,12 @@ int main(){
 					adj.insert(visited[ny][nx]);
 				}
 				
-				ret[i][j]++;
+				ret++;
 				for(int k : adj){
-					ret[i][j] += _size[k];
+					ret += _size[k];
 				}
-				ret[i][j] %=10;
 			}
-		}
-	}
-	
-	for(int i = 0; i < N; i++){
-		for(int j = 0; j < M; j++){
-			cout << ret[i][j];
+			cout << ret % 10;
 		}
 		cout << "\n";
 	}
