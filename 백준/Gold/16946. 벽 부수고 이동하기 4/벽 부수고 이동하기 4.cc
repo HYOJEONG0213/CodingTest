@@ -52,19 +52,29 @@ int main(){
 		for(int j = 0; j < M; j++){
 			int ret = 0;
 			if(board[i][j]==1){
-				set <int> adj;
+				int adj[4] = {0};
+				int adj_size = 0;
 				
 				for(int k = 0; k < 4; k++){
 					int ny = i + dy[k], nx = j + dx[k];
 					if(ny < 0 || nx < 0 || ny >= N || nx >= M) continue;
 					if(board[ny][nx]==1) continue;
-					adj.insert(visited[ny][nx]);
+					
+					bool flag = false;
+					for(int p = 0; p < adj_size; p++){
+						if(adj[p]==visited[ny][nx]){
+							flag = true;
+							break;
+						}
+					}
+					
+					if(flag==false){
+						adj[adj_size++] = visited[ny][nx];
+						ret += _size[visited[ny][nx]];
+					}
 				}
 				
 				ret++;
-				for(int k : adj){
-					ret += _size[k];
-				}
 			}
 			cout << ret % 10;
 		}
