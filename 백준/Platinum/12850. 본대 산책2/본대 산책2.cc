@@ -2,8 +2,7 @@
 using namespace std;
 
 typedef long long ll;
-typedef array<ll, 8> Row;
-typedef array<Row, 8> Matrix;
+typedef vector<vector<ll>> Matrix;
 const ll MOD = 1000000007;
 Matrix A = {{
 {0, 1, 1, 0, 0, 0, 0, 0},	//0: 학생회관 
@@ -16,12 +15,11 @@ Matrix A = {{
 {0, 0, 0, 0, 0, 1, 1, 0}	//7: 정보과학관 
 }};
 
-Matrix ret;
+Matrix ret(8, vector<ll>(8, 0));
 int D;
 
 Matrix mul(Matrix &a, Matrix &b){
-	Matrix temp;
-	for(int i = 0; i < 8; i++) temp[i].fill(0);
+	Matrix temp(8, vector<ll>(8, 0));
 	
 	for(int i = 0; i < 8; i++){
 		for(int k = 0; k < 8; k++){
