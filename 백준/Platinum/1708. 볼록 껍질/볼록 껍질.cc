@@ -3,26 +3,30 @@ using namespace std;
 
 typedef long long ll;
 typedef pair<ll, ll> pp;
-ll N, a, b, sy, sx;
-vector <pp> v;
-stack <pp> stk;
 
-int getccw(ll x1, ll y1, ll x2, ll y2, ll x3, ll y3){
-	ll temp = x1*y2 + x2*y3 + x3*y1 - (x1*y3 + x3*y2 + x2*y1);
-	if(temp < 0) return -1;
-	if(temp == 0) return 0;
-	if(temp > 0) return 1;
+struct Point {
+    ll x, y;
+};
+
+ll N, a, b;
+Point pivot;
+vector <Point> v, stk;
+
+int getccw(Point p1, Point p2, Point p3) {
+    ll temp = p1.x * p2.y + p2.x * p3.y + p3.x * p1.y - (p1.y * p2.x + p2.y * p3.x + p3.y * p1.x);
+    if (temp > 0) return 1; 
+    if (temp < 0) return -1; 
+    return 0;                
 }
 
-ll dist(ll x1, ll y1, ll x2, ll y2){
-	return (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2);
+ll dist(Point p1, Point p2) {
+    return (p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y);
 }
 
-bool compare(pp &a, pp &b) {
-	int ccw = getccw(sx, sy, a.second, a.first, b.second, b.first);
-	if(ccw != 0) return ccw > 0;	// 양수인것만 true  
-	
-	return dist(sx, sy, a.second, a.first) < dist(sx, sy, b.second, b.first);	//일직선 거리 짧은것순 
+bool compare(const Point &a, const Point &b) {
+    int ccw = getccw(pivot, a, b);
+    if (ccw != 0) return ccw > 0; 
+    return dist(pivot, a) < dist(pivot, b); 
 }
 
 int main(){
@@ -34,39 +38,32 @@ int main(){
 	}
 	
 	for(int i = 0; i < N; i++){
-		if(v[i].first < v[0].first || (v[i].first == v[0].first && v[i].second < v[0].second)) {
-			swap(v[0], v[i]);
-		}
+		if (v[i].y < v[0].y || (v[i].y == v[0].y && v[i].x < v[0].x)) {
+            swap(v[0], v[i]);
+        }
 	}
 	
-	tie(sy, sx) = v[0];
+	pivot = v[0];
 	
 	sort(v.begin()+1, v.end(), compare);
 	
-	stk.push({v[0].first, v[0].second});
-	stk.push({v[1].first, v[1].second});
+	stk.push_back(v[0]);
+    stk.push_back(v[1]);
 	
 	for(int i = 2; i < N; i++){
-		ll herey, herex;
-		tie(herey, herex) = v[i];
-		
 		while(stk.size() >= 2){
-			auto f = stk.top(); stk.pop();	
-			ll secondy, secondx;
-			tie(secondy, secondx) = f;
-			
-			f = stk.top();;	
-			ll firsty, firstx;
-			tie(firsty, firstx) = f;
+			Point second = stk.back();
+            stk.pop_back();
+            Point first = stk.back();
 				
-			int ccw = getccw(firstx, firsty, secondx, secondy,  herex, herey);
-			if(ccw > 0){
-				stk.push({secondy, secondx});
-				break;
-			}
+			if (getccw(first, second, v[i]) > 0) {
+                stk.push_back(second);
+                break;
+            }
+			//오목한 점은 버릴거임  
 		}
 		
-		stk.push({herey, herex});
+		stk.push_back(v[i]);
 	}
 	
 	cout << stk.size();
