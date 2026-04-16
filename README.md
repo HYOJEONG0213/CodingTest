@@ -21,9 +21,9 @@
 | 2025.12 ~ 2026.01 | [Notion](https://leather-message-f44.notion.site/2025-12-2026-01-2c778aae3a298092b5f8d914f6a135b6?source=copy_link) | DP, 펜윅트리, 최단거리, 골드~플레 구현 |
 | 2026.01 ~ 2026.02 | [Notion](https://leather-message-f44.notion.site/2026-01-2026-02-2e578aae3a298058a86ef40c0c11e3d9?source=copy_link) | 유니온파인드, MST, 위상정렬, Trie |
 | 2026.02 ~ 2026.03 | [Notion](https://leather-message-f44.notion.site/2026-02-2026-03-30c78aae3a29800290e1c7884c977634?source=copy_link) | 세그먼트트리, 분할정복, MST, LCA |
-| 2026.04 ~ 2026.05 | [Notion](https://leather-message-f44.notion.site/2026-04-2026-05-33678aae3a29807b9d35e9ae093066ae?source=copy_link) | 2026.02~03 확장 문제 |
+| 2026.04 ~ 백준 서비스 종료| [Notion](https://leather-message-f44.notion.site/2026-04-2026-05-33678aae3a29807b9d35e9ae093066ae?source=copy_link) | 2026.02~03 확장 문제 |
 
 > 📌 **참고사항**
-> * **2025.05~2026.01** 기간의 문제들은 **Notion**에만 존재합니다. (복습하며 업데이트 예정)
+> * **2025.05~2026.01** 기간의 문제들은 백준 서비스 종료로 인해 4월에 한번에 업로드했습니다.
 > * **Notion**: 구체적인 문제 접근 및 풀이 단계 정리
 > * **GitHub**: 최종 해결 코드 기록
