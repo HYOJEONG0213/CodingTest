@@ -2,42 +2,37 @@
 using namespace std;
 
 const int INF = 987654321;
-int N, dp[54][500004], H[54];
+int N, dp[500004], temp[500004], H[54];
 
-int f(int idx, int diff){
-	if(idx == N) {
-		if(diff == 0) return 0;
-		else return -INF; 
-	}
-	int &ret = dp[idx][diff];
-	if(ret != -1) return ret;
-	
-	ret = -INF;
-	
-	ret = max(ret, f(idx+1, diff));		// 안쌓는 경우
-	if(diff+H[idx] <= 500000){
-		ret = max(ret, f(idx+1, diff+H[idx])+H[idx]);	//높은 탑에 쌓는 경우 
-	}
-	
-	// 낮은 탑에 쌓는 경우  
-	if(diff - H[idx] < 0){
-		ret = max(ret, f(idx+1, H[idx]-diff)+H[idx]-diff);
-	}
-	else{
-		ret = max(ret, f(idx+1, diff-H[idx]));
-	}
-	
-	return ret;
-}
- 
 int main(){
 	ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
-	memset(dp, -1, sizeof(dp));
+	fill(dp, dp+500004, -INF);
+	dp[0] = 0;
 	cin >> N;
 	for(int i = 0; i < N; i++){
 		cin >> H[i];
+		
+		fill(temp, temp+500004, -INF);
+		for(int j = 0; j <= 500000; j++){
+			if(dp[j] < 0) continue;
+			// 선택하지 않는 경우
+			temp[j] = max(temp[j], dp[j]);
+			
+			// 높은거에 포함시키기
+			if(j+H[i] <= 500000) 	
+				temp[j+H[i]] = max(temp[j+H[i]], dp[j]+H[i]);
+			
+			// 낮은거에 포함시키기  
+			if(j < H[i]){
+				// 기존 낮은탑 높이 : dp[j] - j 
+				temp[H[i]-j] = max(temp[H[i]-j], dp[j]-j + H[i]);
+			}
+			else{
+				temp[j-H[i]] = max(temp[j-H[i]], dp[j]);
+			}
+		}
+		copy(temp, temp+500004, dp);
 	}
 	
-	int ret = f(0, 0);
-	cout << (ret <= 0 ? -1 : ret);
+	cout << (dp[0] <= 0 ? -1 : dp[0]);
 }
