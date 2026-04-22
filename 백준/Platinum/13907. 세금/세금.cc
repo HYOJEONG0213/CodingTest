@@ -13,11 +13,13 @@ struct Edge{
 const int INF = 987654321;
 //dist[정점][지금까지정점수]=최소비용  
 int N, M, S, E, a, b, w, d[1004][1004], dist[1004][1004], K, p, ret=INF, cnt;
+int visited[1004];
 vector <pp> adj[1004];
 
 void bfs(){
 	// 최단경로 구하기
 	fill(&dist[0][0], &dist[0][0]+1004*1004, INF);
+	fill(visited, visited+1004, INF);
 	priority_queue <Edge> pq;
 	Edge edge = {S, 0, 0};
 	pq.push(edge);
@@ -27,14 +29,8 @@ void bfs(){
 		Edge e = pq.top(); pq.pop();
 		if(dist[e.u][e.cnt] < e.value) continue;
 		if(e.cnt >= N-1) continue;
-		bool flag = false;
-		for(int i = 0; i < e.cnt; i++){
-			if(dist[e.u][i] <= e.value){
-				flag = true;
-				break;
-			}
-		}
-		if(flag) continue;
+		if(visited[e.u] <= e.cnt) continue;
+		visited[e.u] = e.cnt;
 		
 		for(auto i : adj[e.u]){
 			int next = i.first;
