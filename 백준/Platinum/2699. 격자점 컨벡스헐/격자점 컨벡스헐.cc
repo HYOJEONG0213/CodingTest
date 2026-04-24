@@ -8,7 +8,7 @@ struct Dot{
 	
 	bool operator <(const Dot &other) const{
 		if(y == other.y) return x < other.x;
-		return y < other.y;
+		return y > other.y;
 	}
 };
 
@@ -70,16 +70,9 @@ int main(){
 		}
 	
 		reverse(ret.begin(), ret.end());
-		int idx = 0;
-		for(int i = 1; i < ret.size(); i++){
-			if(ret[i].y > ret[idx].y || (ret[i].y==ret[idx].y&& ret[i].x < ret[idx].x)){
-				idx = i;
-			}
-		}
 		
 		for(int i = 0; i < ret.size() ; i++){
-			int temp = (i + idx) % ret.size();
-			cout << ret[temp].x << " " << ret[temp].y << "\n";
+			cout << ret[i].x << " " << ret[i].y << "\n";
 		}
 	}
 }
