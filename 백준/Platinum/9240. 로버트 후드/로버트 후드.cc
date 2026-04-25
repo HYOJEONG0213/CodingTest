@@ -31,6 +31,12 @@ bool compare(Dot &a, Dot &b){
 	return getdist(pivot, a) < getdist(pivot, b);
 }
 
+ll getccwV(Dot &a, Dot &b, Dot &c, Dot &d){
+	Dot v1 = {b.x - a.x, b.y - a.y};
+	Dot v2 = {d.x - c.x, d.y - c.y};
+	return v1.x * v2.y - v1.y * v2.x;
+}
+
 int main(){
 	ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 	cin >> C;
@@ -61,11 +67,23 @@ int main(){
 		v.push_back(stk.top()); stk.pop();
 	}
 	
-	for(int i = 0; i < v.size(); i++){
-		for(int j = i+1; j < v.size(); j++){
-			mx = max(mx, getdist(v[i], v[j]));
+	reverse(v.begin(), v.end());
+	int j = 1;
+	int sz = v.size();
+	for(int i = 0; i < sz; i++) {
+		int ni = (i + 1) % sz;
+		while(1){
+			int nj = (j+1) % sz;
+			if(getccwV(v[i], v[ni], v[j], v[nj]) > 0){
+				j = nj;
+			}
+			else{
+				break;
+			}
 		}
+		mx = max(mx, getdist(v[i], v[j]));
 	}
+	
 	double ret = (double) mx;
 	cout << fixed << setprecision(6) << sqrt(ret);
 }
