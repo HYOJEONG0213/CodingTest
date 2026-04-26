@@ -60,17 +60,26 @@ int main(){
 	ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 	cin >> N;
 	Tree t;
+	
+	vector <int> X, Y; 
 	for(int i = 0; i < N; i++){
 		cin >> t.x >> t.y >> t.len;
 		A.push_back(t);
+		X.push_back(t.x);
+		Y.push_back(t.y);
 	}
 	sort(A.begin(), A.end());
+	sort(X.begin(), X.end());
+	sort(Y.begin(), Y.end());
+	
+	X.erase(unique(X.begin(), X.end()), X.end());
+	Y.erase(unique(Y.begin(), Y.end()), Y.end());
 	
 	// i : 왼, j : 오, k: 위, l : 아래  
-	for(int i = 0; i < N; i++){
-		for(int j = 0; j < N; j++){
-			for(int k = 0; k < N; k++){
-				for(int l = 0; l < N; l++){
+	for(int i = 0; i < X.size(); i++){
+		for(int j = 0; j < X.size(); j++){
+			for(int k = 0; k < Y.size(); k++){
+				for(int l = 0; l < Y.size(); l++){
 					Tree p1 = {A[i].x, A[k].y, 0};
 					Tree p2 = {A[j].x, A[l].y, 0};
 					ret = min(ret, getLen(p1, p2));
