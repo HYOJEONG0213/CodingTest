@@ -77,11 +77,11 @@ int main(){
 	
 	// i : 왼, j : 오, k: 위, l : 아래  
 	for(int i = 0; i < X.size(); i++){
-		for(int j = 0; j < X.size(); j++){
+		for(int j = i; j < X.size(); j++){
 			for(int k = 0; k < Y.size(); k++){
-				for(int l = 0; l < Y.size(); l++){
-					Tree p1 = {A[i].x, A[k].y, 0};
-					Tree p2 = {A[j].x, A[l].y, 0};
+				for(int l = k; l < Y.size(); l++){
+					Tree p1 = {X[i], Y[k], 0};
+					Tree p2 = {X[j], Y[l], 0};
 					ret = min(ret, getLen(p1, p2));
 				}
 			}
