@@ -23,31 +23,27 @@ int getLen(Tree &a, Tree &b){
 	// 안에 포함되는 나무 수 
 	int tempsum = 0;
 	int cnt = 0;
-	vector <Tree> e;	// 울타리 외부 
-	vector <Tree> in;	// 울타리 내부  
 	
 	int maxX = max(a.x, b.x);
 	int minX = min(a.x, b.x);
 	int maxY = max(a.y, b.y);
 	int minY = min(a.y, b.y);
 	
-	for(auto i : A){
+	for(auto &i : A){
 		// 울타리 내부 외부 구분
-		if((i.x >= minX && i.y >= minY) && (i.x <= maxX && i.y <= maxY)) {
-			in.push_back(i);
-		}
-		else{
-			e.push_back(i);
+		if((i.x < minX || i.y < minY) || (i.x > maxX || i.y > maxY)) {
 			tempsum += i.len;
 			cnt++;
 		}
 	}
 	
 	if(tempsum < sum){
-		for(auto i : in){
-			tempsum += i.len;
-			cnt++;
-			if(tempsum >= sum) break;
+		for(auto &i : A){
+			if((i.x >= minX && i.y >= minY) && (i.x <= maxX && i.y <= maxY)){
+				tempsum += i.len;
+				cnt++;
+				if(tempsum >= sum) break;
+			}
 		}
 	}
 	
