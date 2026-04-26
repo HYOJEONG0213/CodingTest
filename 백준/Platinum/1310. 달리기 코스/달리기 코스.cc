@@ -82,7 +82,6 @@ int main(){
 			// sin a < 0 : 180도 초과  
 			if(getVecCcw(v[i], v[(i+1)%sz], v[j%sz], v[(j+1)%sz]) < 0){
 				j++;
-				mx = max(mx, getdist(v[i], v[j%sz]));
 			}
 			else{
 				break;
