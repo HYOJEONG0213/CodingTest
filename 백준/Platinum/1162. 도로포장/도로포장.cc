@@ -31,6 +31,10 @@ int main(){
 	while(pq.size()){
 		auto f = pq.top(); pq.pop();
 		
+		if(f.idx==N){
+			cout << f.cost;
+			return 0;
+		}
 		if(dp[f.idx][f.cnt] < f.cost) continue;
 		
 		for(auto i : adj[f.idx]){
