@@ -6,7 +6,7 @@ struct Bag{
 };
 const int INF = 987654321;
 int N, M, V, C, K, mx;
-// dp[idx][가방무게] = 최대 가치 
+// dp[가방무게] = 최대 가치 
 int dp[10004];
 vector <Bag> bag; 
 
@@ -16,6 +16,7 @@ int main(){
 	for(int i = 0; i < N; i++){
 		Bag b;
 		cin >> V >> C >> K;
+		// 이진분할해서 넣기!  
 		for(int j = 1; K > 0; j *= 2){
 			int num = min(j, K);
 			bag.push_back({V*num, C*num});
