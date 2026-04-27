@@ -2,14 +2,23 @@
 using namespace std;
 
 #define pow10 ppppp
+#define next nnnnn
 typedef long long ll;
-ll N, B[18], K, dp[1<<15][100], pow10[54];
+ll N, B[18], K, dp[1<<15][100], pow10[54], next[104][18];
 string A[18];
 
 void init(){
 	pow10[0] = 1 % K;
 	for(int i = 1; i < 51; i++){
 		pow10[i] = (pow10[i-1]*10) % K;
+	}
+	
+	// i: 현재 나머지값
+	// j : 새로 k번째를 붙일거임   
+	for(int i = 0; i < K; i++){
+		for(int j = 0; j < N; j++){
+			next[i][j] = (i * pow10[A[j].size()] + B[j]) % K;
+		}
 	}
 }
 
@@ -26,7 +35,7 @@ int main(){
 		cin >> A[i];
 	}
 	cin >> K;
-	init();
+	
 	for(int i = 0; i < N; i++){
 		int reminder = 0;
 		for(int j = 0; j < A[i].size(); j++){
@@ -34,9 +43,11 @@ int main(){
 			reminder = (reminder * 10 + digit) % K;
 		}
 		B[i] = reminder;
-		
-		dp[1<<i][B[i]]++;
 	}
+	
+	init();
+	
+	dp[0][0] = 1;
 	
 	for(int i = 0; i < 1<<N ; i++){
 		for(int j = 0; j < K; j++){
@@ -44,7 +55,7 @@ int main(){
 			
 			for(int k = 0 ; k < N; k++){
 				if((i&(1<<k))==0){	//아직 안썼다면 
-					int reminder = (j * pow10[A[k].size()] + B[k]) % K;
+					int reminder = next[j][k];
 					dp[i|(1<<k)][reminder] += dp[i][j];
 				}
 			}
