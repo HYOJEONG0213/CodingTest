@@ -21,7 +21,7 @@
 | 2025.12 ~ 2026.01 | [Notion](https://leather-message-f44.notion.site/2025-12-2026-01-2c778aae3a298092b5f8d914f6a135b6?source=copy_link) | DP, 펜윅트리, 최단거리, 골드~플레 구현 |
 | 2026.01 ~ 2026.02 | [Notion](https://leather-message-f44.notion.site/2026-01-2026-02-2e578aae3a298058a86ef40c0c11e3d9?source=copy_link) | 유니온파인드, MST, 위상정렬, Trie |
 | 2026.02 ~ 2026.03 | [Notion](https://leather-message-f44.notion.site/2026-02-2026-03-30c78aae3a29800290e1c7884c977634?source=copy_link) | 세그먼트트리, 분할정복, MST, LCA |
-| 2026.04 ~ 2026.04.22| [Notion](https://leather-message-f44.notion.site/2026-04-2026-05-33678aae3a29807b9d35e9ae093066ae?source=copy_link) | 클래스 5, 6 문제 |
+| 2026.04 ~ 2026.04.22| [Notion](https://leather-message-f44.notion.site/2026-04-2026-05-33678aae3a29807b9d35e9ae093066ae?source=copy_link) | 클래스 5, 6 문제, 이분매칭, 최대유량, 매니처 |
 | 2026.04.22 ~ 2026.04.28| [Notion](https://leather-message-f44.notion.site/2026-04-2-34c78aae3a2980b3ac7df519c6e94fb3) | 클래스 7 문제 |
 
 
