@@ -1,0 +1,5 @@
+토끼 Rabbit
+고양이 Cat
+강아지 Dog
+아기토끼 Bunny
+아기고양이 Kitty
