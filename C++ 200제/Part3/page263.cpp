@@ -1,19 +1,13 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void sum(int arg, ...){
-	int sum = 0;
-	va_list v;
-	va_start(v, arg);
-	for(int i = 0; i < arg; i++){
-		sum += va_arg(v, int);
-	}
-	va_end(v);
-	
-	cout << sum;
+inline int Max(int x, int y){
+	return x > y ? x : y;
 }
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
-	sum(5,1,2,3,4,5);
+	for(int i = 0; i < 5; i++){
+		cout << Max(i, i+10) << "\n";
+	}
 }
